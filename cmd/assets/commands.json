@@ -1,0 +1,278 @@
+{
+  "version": "0.1.0",
+  "commands": [
+    {
+      "name": "bitshit",
+      "usage": "bitshit",
+      "description": "Launch the interactive dashboard (TUI)",
+      "category": "core",
+      "example": "bitshit"
+    },
+    {
+      "name": "run",
+      "usage": "bitshit run <model-id>",
+      "description": "Pull & run a model. Downloads if not cached locally.",
+      "category": "models",
+      "example": "bitshit run bonsai:8b"
+    },
+    {
+      "name": "pull",
+      "usage": "bitshit pull <model-id>",
+      "description": "Download and register a model into the local vault without running it.",
+      "category": "models",
+      "example": "bitshit pull unsloth/Qwen3.5-4B-GGUF"
+    },
+    {
+      "name": "rm",
+      "usage": "bitshit rm <model-id>",
+      "description": "Remove a model from the local vault (physically deletes the .gguf file).",
+      "category": "models",
+      "example": "bitshit rm bonsai:8b"
+    },
+    {
+      "name": "list",
+      "usage": "bitshit list",
+      "description": "List all downloaded models in the local vault.",
+      "category": "models",
+      "example": "bitshit list"
+    },
+    {
+      "name": "model set-chat",
+      "usage": "bitshit model set-chat <model-id>",
+      "description": "Switch the active chat/inference model dynamically without restart.",
+      "category": "models",
+      "example": "bitshit model set-chat bonsai:8b"
+    },
+    {
+      "name": "model set-vector",
+      "usage": "bitshit model set-vector <model-id>",
+      "description": "Switch the active vector/embedding model dynamically.",
+      "category": "models",
+      "example": "bitshit model set-vector all-MiniLM-L6-v2"
+    },
+    {
+      "name": "ps",
+      "usage": "bitshit ps",
+      "description": "Show active neural engines in memory and auto-heal stale PIDs.",
+      "category": "core",
+      "example": "bitshit ps"
+    },
+    {
+      "name": "help",
+      "usage": "bitshit help",
+      "description": "Show this help screen",
+      "category": "core",
+      "example": "bitshit help"
+    },
+    {
+      "name": "status",
+      "usage": "bitshit status",
+      "description": "Show hardware status and silicon health metrics.",
+      "category": "system",
+      "example": "bitshit status"
+    },
+    {
+      "name": "calibrate",
+      "usage": "bitshit calibrate",
+      "description": "Re-scan hardware and synchronize SiliconTruth profile",
+      "category": "system",
+      "example": "bitshit calibrate"
+    },
+    {
+      "name": "benchmark",
+      "usage": "bitshit benchmark [model-id] [--runs N]",
+      "description": "Run a full hardware performance benchmark. Optionally target a specific model.",
+      "category": "system",
+      "example": "bitshit benchmark bonsai:8b --runs 3"
+    },
+    {
+      "name": "booster",
+      "usage": "bitshit booster [--kv-quant <level>] [--context-shift <mode>] [--mode <perf>] [--spec-decode <on|off|auto>]",
+      "description": "View or configure system performance booster settings. Run without flags for interactive TUI mode.",
+      "category": "system",
+      "example": "bitshit booster --mode max_boost --kv-quant kv8"
+    },
+    {
+      "name": "permission firewall",
+      "usage": "bitshit permission firewall <auto|strict|off>",
+      "description": "Change the WASM sandbox firewall status.",
+      "category": "system",
+      "example": "bitshit permission firewall strict"
+    },
+    {
+      "name": "permission telemetry",
+      "usage": "bitshit permission telemetry <on|off>",
+      "description": "Toggle engine telemetry stream on or off.",
+      "category": "system",
+      "example": "bitshit permission telemetry off"
+    },
+    {
+      "name": "permission kvcache",
+      "usage": "bitshit permission kvcache <on|off>",
+      "description": "Toggle KV Cache generation globally for inference sessions.",
+      "category": "system",
+      "example": "bitshit permission kvcache on"
+    },
+    {
+      "name": "test-jit",
+      "usage": "bitshit test-jit",
+      "description": "Test JIT KV Cache compilation and memory footprint.",
+      "category": "system",
+      "example": "bitshit test-jit"
+    },
+    {
+      "name": "ingest",
+      "usage": "bitshit ingest <file_path>",
+      "description": "Ingest a document natively for semantic chunking and RAG.",
+      "category": "core",
+      "example": "bitshit ingest ./document.pdf"
+    },
+    {
+      "name": "setup",
+      "usage": "bitshit setup profile",
+      "description": "Setup bitshit Node Profile and Identity (Vectorization and DB Injection).",
+      "category": "core",
+      "example": "bitshit setup profile"
+    },
+    {
+      "name": "serve",
+      "usage": "bitshit serve (aliases: api, server)",
+      "description": "Start the background API Daemon (Server mode).",
+      "category": "core",
+      "example": "bitshit serve"
+    },
+    {
+      "name": "config set",
+      "usage": "bitshit config set",
+      "description": "Interactively configure any installed component's settings via guided dropdown menus. After each save, loops back to key selection automatically.",
+      "category": "config",
+      "example": "bitshit config set"
+    },
+    {
+      "name": "config set (direct)",
+      "usage": "bitshit config set <type> <id> <settings.key> <value>",
+      "description": "Directly update a single component setting without interactive prompts. Preserves manifest YAML format and invalidates .bin cache automatically.",
+      "category": "config",
+      "example": "bitshit config set extension bitshit-search settings.search_api_key \"mykey\""
+    },
+    {
+      "name": "dev-sync",
+      "usage": "bitshit dev-sync [all|core|driver] [driver_name] [--profile debug|release]",
+      "description": "Sync compiled development artifacts (engines, drivers) to ~/.bitshit manually. Useful for local dev iteration without reinstalling.",
+      "category": "core",
+      "example": "bitshit dev-sync all --profile release"
+    },
+    {
+      "name": "skill install",
+      "usage": "bitshit skill install <skill_name>",
+      "description": "Install a skill from the bitshit-hub registry.",
+      "category": "skills",
+      "example": "bitshit skill install web-search-github"
+    },
+    {
+      "name": "skill list",
+      "usage": "bitshit skill list",
+      "description": "List all locally installed WASM skills.",
+      "category": "skills",
+      "example": "bitshit skill list"
+    },
+    {
+      "name": "skill remove",
+      "usage": "bitshit skill remove <skill_name>",
+      "description": "Remove an installed skill and its cached artifacts.",
+      "category": "skills",
+      "example": "bitshit skill remove web-search-github"
+    },
+    {
+      "name": "skill cache ls",
+      "usage": "bitshit skill cache ls",
+      "description": "List all active and orphaned dual-caches.",
+      "category": "skills",
+      "example": "bitshit skill cache ls"
+    },
+    {
+      "name": "skill cache clear",
+      "usage": "bitshit skill cache clear [--all] [-f]",
+      "description": "Clear specific or all orphaned KV caches globally. Use -f to force-delete active caches.",
+      "category": "skills",
+      "example": "bitshit skill cache clear --all"
+    },
+    {
+      "name": "plugin",
+      "usage": "bitshit plugin <install|list|remove|link> [plugin_name]",
+      "description": "Manage bitshit Plugins (Native muscles).",
+      "category": "extensions",
+      "example": "bitshit plugin install web-scraper"
+    },
+    {
+      "name": "plugin cache ls",
+      "usage": "bitshit plugin cache ls",
+      "description": "List all active plugin caches.",
+      "category": "extensions",
+      "example": "bitshit plugin cache ls"
+    },
+    {
+      "name": "plugin cache clear",
+      "usage": "bitshit plugin cache clear [plugin_name] [--all] [-f]",
+      "description": "Clear specific or all plugin caches globally.",
+      "category": "extensions",
+      "example": "bitshit plugin cache clear --all"
+    },
+    {
+      "name": "extension",
+      "usage": "bitshit extension <install|list|remove|start> [extension_name]",
+      "description": "Manage bitshit Extensions (Brain + Muscle bundles).",
+      "category": "extensions",
+      "example": "bitshit extension install bitshit-db"
+    },
+    {
+      "name": "extension cache ls",
+      "usage": "bitshit extension cache ls",
+      "description": "List all active extension caches.",
+      "category": "extensions",
+      "example": "bitshit extension cache ls"
+    },
+    {
+      "name": "extension cache clear",
+      "usage": "bitshit extension cache clear [extension_name] [--all] [-f]",
+      "description": "Clear specific or all extension caches globally.",
+      "category": "extensions",
+      "example": "bitshit extension cache clear --all"
+    },
+    {
+      "name": "mcp",
+      "usage": "bitshit mcp <install|list|remove|start> [mcp_name]",
+      "description": "Manage Model Context Protocol (MCP) integrations.",
+      "category": "extensions",
+      "example": "bitshit mcp install github-mcp"
+    },
+    {
+      "name": "mcp cache ls",
+      "usage": "bitshit mcp cache ls",
+      "description": "List all active MCP caches.",
+      "category": "extensions",
+      "example": "bitshit mcp cache ls"
+    },
+    {
+      "name": "mcp cache clear",
+      "usage": "bitshit mcp cache clear [mcp_name] [--all] [-f]",
+      "description": "Clear specific or all MCP caches globally.",
+      "category": "extensions",
+      "example": "bitshit mcp cache clear --all"
+    },
+    {
+      "name": "cel execute",
+      "usage": "bitshit cel execute <script.cel>",
+      "description": "Natively executes a bitshit Execution Language (CEL) script.",
+      "category": "core",
+      "example": "bitshit cel execute agent_logic.cel"
+    },
+    {
+      "name": "cel test",
+      "usage": "bitshit cel test <script.cel>",
+      "description": "Compiles and validates a CEL script without executing state-mutating actions.",
+      "category": "core",
+      "example": "bitshit cel test agent_logic.cel"
+    }
+  ]
+}
