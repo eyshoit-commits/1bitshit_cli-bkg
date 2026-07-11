@@ -101,174 +101,40 @@ pub async fn execute(model_id: &str, _interactive: bool) -> Result<()> {
         registry.load_from_directory(&skills_dir.to_string_lossy());
     }
 
-    // 2. Silicon Audit (Local Probe or HF Metadata)
-    let manager = engines::models::manager::ModelManager::new(engines::models::registry::REGISTRY_URL.to_string(), bitshit_root.clone());
-    
+    // 2. Display detected model status (engine routes BitNet → RuntimeC)
     let safe_id = manifest.id.replace(':', "-");
     let model_path = bitshit_root.join(&manifest.category).join(&safe_id);
     let model_file = model_path.join(&manifest.huggingface_filename);
 
-    if !is_local {
-        println!("  {} Fetching Deep Metadata (Binary Probe)...", "📡".cyan());
-    }
+    // Detect BitNet for status display (architecture or quantization hint)
+    let is_bitnet = manifest.architecture_type.to_ascii_lowercase().contains("bitnet")
+        || manifest.bit_depth < 2.0
+        || manifest.architecture.to_ascii_lowercase().contains("bitnet")
+        || manifest.id.to_ascii_lowercase().contains("tq1_0")
+        || manifest.id.to_ascii_lowercase().contains("tq2_0")
+        || manifest.id.to_ascii_lowercase().contains("i2_s");
+
+    let runtime = if is_bitnet { "BitNet" } else if manifest.architecture_type == "onnx" { "ONNX" } else { "Llama.cpp" };
+    let kernel = if is_bitnet { "AVX2 ternary" } else if manifest.architecture_type == "onnx" { "ONNX Runtime" } else { "GGML CPU" };
+    let status = "Ready";
+
+    println!("\n  {} Status:", "📋".cyan());
+    println!("    ├─ Runtime: {}", runtime.yellow());
+    println!("    ├─ Kernel: {}", kernel.green());
+    println!("    ├─ Status: {}", status.green());
+    println!("    ├─ Model: {}", manifest.id.cyan());
+    println!("    ├─ Architecture: {}", manifest.architecture.cyan());
+    println!("    ├─ Bit Depth: {:.2}", manifest.bit_depth);
+    println!();
+
+    // 3. Launch Dashboard or non-interactive inference
+    use crate::core::state::AppState;
+    use tokio::sync::mpsc;
     
-    let is_onnx = manifest.architecture_type == "onnx";
-    
-    if is_onnx {
-        // ONNX specific metadata display
-        if !is_local {
-            println!("    ├─ 🧠 Architecture: {}", manifest.architecture.yellow());
-            println!("    ├─ 🧩 Type: ONNX Optimized Execution Graph");
-            println!("    ├─ 📦 Quantization: fp32");
-            println!("    ├─ 💾 Download Size: {:.2} GB", manifest.download_size_gb);
-            println!("    ├─ ⚙️ RAM Requirement: {:.2} GB", manifest.ram_required_gb);
-        }
-    } else {
-        let probe_result = if is_local && model_file.exists() {
-            bitshit_shared::utils::gguf_prober::GGUFProber::probe(&model_file).map_err(|e| e.to_string())
-        } else {
-            engines::models::manager::hf_hub::HuggingFaceHub::fetch_partial_gguf_metadata(&manifest.download_url).await
-        };
-
-        if let Ok((metadata, _tensor_infos, tensor_count)) = probe_result {
-            let arch = metadata.get("general.architecture").unwrap_or(&"Unknown".to_string()).to_string();
-            let ctx = metadata.get(&format!("{}.context_length", arch)).or(metadata.get("llama.context_length")).unwrap_or(&"Unknown".to_string()).to_string();
-            
-            let ctx_display = if let Ok(ctx_val) = ctx.parse::<u32>() {
-                if ctx_val >= 1024 {
-                    format!("{} ({}K)", ctx_val, ctx_val / 1024)
-                } else {
-                    ctx.clone()
-                }
-            } else {
-                ctx.clone()
-            };
-
-            let params = metadata.get("general.parameter_count").unwrap_or(&"Unknown".to_string()).to_string();
-            let file_type = metadata.get("general.file_type").unwrap_or(&"Unknown".to_string()).to_string();
-            let blocks = metadata.get(&format!("{}.block_count", arch)).unwrap_or(&"Unknown".to_string()).to_string();
-            
-            let num_layers = blocks.parse::<u64>().unwrap_or(32);
-            let num_heads = metadata.get(&format!("{}.attention.head_count", arch)).and_then(|s| s.parse::<u64>().ok()).unwrap_or(32);
-            let num_kv_heads = metadata.get(&format!("{}.attention.head_count_kv", arch)).and_then(|s| s.parse::<u64>().ok()).unwrap_or(num_heads);
-            let hidden_size = metadata.get(&format!("{}.embedding_length", arch)).and_then(|s| s.parse::<u64>().ok()).unwrap_or(4096);
-            
-            let head_dim = hidden_size / num_heads.max(1);
-            let standard_context_tokens = 8192;
-            let kv_cache_bytes = 2 * 2 * num_layers * num_kv_heads * head_dim * standard_context_tokens;
-            let kv_cache_gb = kv_cache_bytes as f64 / (1024.0 * 1024.0 * 1024.0);
-            let base_engine_overhead_gb = 0.30;
-            
-            // Dynamically override manifest RAM based on exact architectural math
-            manifest.ram_required_gb = manifest.download_size_gb + base_engine_overhead_gb + kv_cache_gb;
-
-            if !is_local {
-                println!("    ├─ 🧠 Architecture: {}", arch.yellow());
-                println!("    ├─ 📏 Context Window: {} tokens", ctx_display.green());
-                println!("    ├─ 🧩 Parameters: {} B", params.green());
-                println!("    ├─ 📦 Quantization / File Type: {}", file_type.cyan());
-                println!("    ├─ 📚 Network Layers (Blocks): {}", blocks.magenta());
-                println!("    ├─ ⚡ Tensor Count: {}", tensor_count.to_string().cyan());
-                println!("    ├─ 💾 Download Size: {:.2} GB", manifest.download_size_gb);
-                println!("    ├─ 🧮 KV Cache (8K tokens): {:.2} GB", kv_cache_gb);
-                println!("    ├─ ⚙️ Base Engine Overhead: {:.2} GB", base_engine_overhead_gb);
-            }
-        } else if let Err(e) = probe_result {
-            if !is_local {
-                println!("    ├─ ⚠️ Could not probe remote GGUF header: {}", e);
-                println!("    ├─ 💾 Download Size: {:.2} GB", manifest.download_size_gb);
-            }
-        }
-    }
-    
-    // Load System Control to get real hardware stats
-    let config_path = bitshit_shared::hardware::governor::HardwareGovernor::resolve_engine_path().join("system_control.json");
-    let system_control = if let Ok(content) = std::fs::read_to_string(config_path) {
-        serde_json::from_str::<bitshit_shared::hardware::schema::profiles::SystemControl>(&content).ok()
-    } else {
-        None
-    };
-
-    let (mut user_ram, mut user_vram) = (0.0, 0.0);
-    if let Some(control) = &system_control {
-        user_ram = control.silicon_truth.memory.total_capacity_gb;
-        user_vram = control.silicon_truth.accelerators.gpus.first().map(|g| g.vram_available_gb).unwrap_or(0.0);
-    }
-    
-    let total_required = manifest.ram_required_gb;
-    let mut projected_tps = 0.0;
-    
-    if user_vram > 0.0 {
-        if total_required <= user_vram {
-            projected_tps = 35.0; 
-        } else {
-            let vram_ratio = user_vram / total_required;
-            if vram_ratio > 0.8 { projected_tps = 22.0; }
-            else if vram_ratio > 0.5 { projected_tps = 15.0; }
-            else { projected_tps = 8.0; }
-        }
-    } else {
-        projected_tps = 5.0;
-    }
-
-    let status = manager.audit_model_health(total_required as f32, manifest.requires_gpu);
-
-    if !is_local {
-        println!("\n  {} Conducting Pre-flight Silicon Audit...", "⚖️".cyan());
-        println!("    ├─ 🖥️ Host System RAM: {:.2} GB", user_ram);
-        if user_vram > 0.0 {
-            println!("    ├─ 🎮 Target VRAM (Primary GPU): {:.2} GB", user_vram);
-        }
-        println!("    ├─ 📊 Target Allocation: {:.2} GB (Weights + Engine + 8K Context)", total_required);
-        
-        if user_vram > 0.0 {
-            if total_required <= user_vram {
-                println!("    ├─ ⚡ Offload Status: Full GPU Acceleration (100% VRAM)");
-                println!("    ├─ 🧮 Remaining VRAM post-load: {:.2} GB", user_vram - total_required);
-            } else {
-                let vram_ratio = user_vram / total_required;
-                println!("    ├─ ⚡ Offload Status: Partial GPU Acceleration ({:.0}% in VRAM)", vram_ratio * 100.0);
-                println!("    ├─ 🧮 Remaining System RAM post-load: {:.2} GB", user_ram - (total_required - user_vram));
-            }
-        } else {
-            println!("    ├─ ⚡ Offload Status: CPU Inference (No dedicated VRAM)");
-            println!("    ├─ 🧮 Remaining System RAM post-load: {:.2} GB", user_ram - total_required);
-        }
-        println!("    ├─ 🚀 Projected Speed: ~{:.0} Tokens/Second (TPS)", projected_tps);
-        println!("    ├─ System Status: {:?}", status);
-    }
-    
-    if status == engines::models::manager::auditor::HealthStatus::Disabled {
-        return Err(color_eyre::eyre::eyre!("❌ DENIED: Insufficient hardware resources for this model."));
-    }
-    
-    if !is_local {
-        if is_hf {
-            let confirm = inquire::Confirm::new("Audit passed. Proceed with model download?").with_default(true).prompt()?;
-            if !confirm {
-                return Err(color_eyre::eyre::eyre!("Initialization aborted by user."));
-            }
-            manager.pull_model_with_manifest(&manifest).await.map_err(|e| color_eyre::eyre::eyre!(e))?;
-            
-            println!("\n  {} HuggingFace Model Downloaded! Launching dynamic session...", "✅".green());
-            is_local = true;
-        } else {
-            let confirm = inquire::Confirm::new("Audit passed. Proceed with model download and initialization?").with_default(true).prompt()?;
-            if !confirm {
-                return Err(color_eyre::eyre::eyre!("Initialization aborted by user."));
-            }
-            manager.pull_model(&resolved_id).await.map_err(|e| color_eyre::eyre::eyre!(e))?;
-            is_local = true;
-        }
-    }
-
-    if !model_file.exists() {
-        return Err(color_eyre::eyre::eyre!("Model file not found at: {:?}", model_file));
-    }
-
-    if is_local {
-        println!("  {} Local Audit Passed. Preparing Neural Matrix...", "✨".green());
-    }
+    let _ = engines::utils::healer::AutoHealer::heal_missing_tokenizer(&manifest.download_url, &model_path).await;
+    let tokenizer_path = model_path.join("tokenizer.json");
+    let mut state = AppState::new(None);
+    state._active_model_id = Some(manifest.id.clone());
 
     // Give a small pause for visual feedback before clearing screen for dashboard
     tokio::time::sleep(std::time::Duration::from_millis(800)).await;

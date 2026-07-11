@@ -423,6 +423,7 @@ dependencies = [
 [[package]]
 name = "bitshit-driver-booster"
 version = "0.2.0"
+source = "git+https://github.com/eyshoit-commits/1bitshit_driver-bkg?branch=main#9b362b9e04ab8108fa9f22902bac2f9a6e482f31"
 dependencies = [
  "anyhow",
  "bitshit-shared",
@@ -436,6 +437,7 @@ dependencies = [
 [[package]]
 name = "bitshit-driver-dispatcher"
 version = "0.2.0"
+source = "git+https://github.com/eyshoit-commits/1bitshit_driver-bkg?branch=main#9b362b9e04ab8108fa9f22902bac2f9a6e482f31"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -453,6 +455,7 @@ dependencies = [
 [[package]]
 name = "bitshit-engine-api"
 version = "0.2.0"
+source = "git+https://github.com/eyshoit-commits/1bitshit_engine-bkg?branch=main#d4576a460c202c30a7c9c0b1d2d71c0ac5a11696"
 dependencies = [
  "async-stream",
  "axum",
@@ -478,6 +481,7 @@ dependencies = [
 [[package]]
 name = "bitshit-engine-cel"
 version = "0.2.0"
+source = "git+https://github.com/eyshoit-commits/1bitshit_engine-bkg?branch=main#d4576a460c202c30a7c9c0b1d2d71c0ac5a11696"
 dependencies = [
  "anyhow",
  "bincode",
@@ -497,6 +501,7 @@ dependencies = [
 [[package]]
 name = "bitshit-engine-core"
 version = "0.2.0"
+source = "git+https://github.com/eyshoit-commits/1bitshit_engine-bkg?branch=main#d4576a460c202c30a7c9c0b1d2d71c0ac5a11696"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -539,6 +544,7 @@ dependencies = [
 [[package]]
 name = "bitshit-kernel-llama"
 version = "0.2.0"
+source = "git+https://github.com/eyshoit-commits/1bitshit_kernel-bkg?branch=main#ffa8a83c14d26baccaccd540f2121da1ee0627b1"
 dependencies = [
  "anyhow",
  "bindgen",
@@ -558,6 +564,7 @@ dependencies = [
 [[package]]
 name = "bitshit-kernel-onnx"
 version = "0.2.0"
+source = "git+https://github.com/eyshoit-commits/1bitshit_kernel-bkg?branch=main#ffa8a83c14d26baccaccd540f2121da1ee0627b1"
 dependencies = [
  "anyhow",
  "bitshit-neural-core",
@@ -575,6 +582,7 @@ dependencies = [
 [[package]]
 name = "bitshit-neural-core"
 version = "0.2.0"
+source = "git+https://github.com/eyshoit-commits/1bitshit_kernel-bkg?branch=main#ffa8a83c14d26baccaccd540f2121da1ee0627b1"
 dependencies = [
  "anyhow",
  "bitshit-shared",
@@ -587,6 +595,7 @@ dependencies = [
 [[package]]
 name = "bitshit-shared"
 version = "0.2.0"
+source = "git+https://github.com/eyshoit-commits/1bitshit_kernel-bkg?branch=main#ffa8a83c14d26baccaccd540f2121da1ee0627b1"
 dependencies = [
  "anyhow",
  "bincode",
