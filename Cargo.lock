@@ -401,7 +401,7 @@ dependencies = [
  "inquire",
  "itertools 0.13.0",
  "libc",
- "rand 0.8.6",
+ "rand 0.8.7",
  "ratatui 0.30.2",
  "reqwest",
  "serde",
@@ -423,7 +423,7 @@ dependencies = [
 [[package]]
 name = "bitshit-driver-booster"
 version = "0.2.0"
-source = "git+https://github.com/eyshoit-commits/1bitshit_driver-bkg?branch=main#9b362b9e04ab8108fa9f22902bac2f9a6e482f31"
+source = "git+https://github.com/eyshoit-commits/1bitshit_driver-bkg?branch=main#aa1054abe700a572cdc19cbf6ad6ef8f7f96c5b9"
 dependencies = [
  "anyhow",
  "bitshit-shared",
@@ -437,7 +437,7 @@ dependencies = [
 [[package]]
 name = "bitshit-driver-dispatcher"
 version = "0.2.0"
-source = "git+https://github.com/eyshoit-commits/1bitshit_driver-bkg?branch=main#9b362b9e04ab8108fa9f22902bac2f9a6e482f31"
+source = "git+https://github.com/eyshoit-commits/1bitshit_driver-bkg?branch=main#aa1054abe700a572cdc19cbf6ad6ef8f7f96c5b9"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -455,7 +455,7 @@ dependencies = [
 [[package]]
 name = "bitshit-engine-api"
 version = "0.2.0"
-source = "git+https://github.com/eyshoit-commits/1bitshit_engine-bkg?branch=main#d4576a460c202c30a7c9c0b1d2d71c0ac5a11696"
+source = "git+https://github.com/eyshoit-commits/1bitshit_engine-bkg?branch=main#269c2c6d601a963d70a5e8365942e76b10e73198"
 dependencies = [
  "async-stream",
  "axum",
@@ -481,7 +481,7 @@ dependencies = [
 [[package]]
 name = "bitshit-engine-cel"
 version = "0.2.0"
-source = "git+https://github.com/eyshoit-commits/1bitshit_engine-bkg?branch=main#d4576a460c202c30a7c9c0b1d2d71c0ac5a11696"
+source = "git+https://github.com/eyshoit-commits/1bitshit_engine-bkg?branch=main#269c2c6d601a963d70a5e8365942e76b10e73198"
 dependencies = [
  "anyhow",
  "bincode",
@@ -501,7 +501,7 @@ dependencies = [
 [[package]]
 name = "bitshit-engine-core"
 version = "0.2.0"
-source = "git+https://github.com/eyshoit-commits/1bitshit_engine-bkg?branch=main#d4576a460c202c30a7c9c0b1d2d71c0ac5a11696"
+source = "git+https://github.com/eyshoit-commits/1bitshit_engine-bkg?branch=main#269c2c6d601a963d70a5e8365942e76b10e73198"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -522,7 +522,7 @@ dependencies = [
  "memmap2",
  "once_cell",
  "pdf-extract",
- "rand 0.9.4",
+ "rand 0.9.5",
  "rayon",
  "reqwest",
  "safetensors",
@@ -544,7 +544,7 @@ dependencies = [
 [[package]]
 name = "bitshit-kernel-llama"
 version = "0.2.0"
-source = "git+https://github.com/eyshoit-commits/1bitshit_kernel-bkg?branch=main#ffa8a83c14d26baccaccd540f2121da1ee0627b1"
+source = "git+https://github.com/eyshoit-commits/1bitshit_kernel-bkg?branch=main#46974bd9e0f4712ad0e74a341a96b5a1526548be"
 dependencies = [
  "anyhow",
  "bindgen",
@@ -564,7 +564,7 @@ dependencies = [
 [[package]]
 name = "bitshit-kernel-onnx"
 version = "0.2.0"
-source = "git+https://github.com/eyshoit-commits/1bitshit_kernel-bkg?branch=main#ffa8a83c14d26baccaccd540f2121da1ee0627b1"
+source = "git+https://github.com/eyshoit-commits/1bitshit_kernel-bkg?branch=main#46974bd9e0f4712ad0e74a341a96b5a1526548be"
 dependencies = [
  "anyhow",
  "bitshit-neural-core",
@@ -582,7 +582,7 @@ dependencies = [
 [[package]]
 name = "bitshit-neural-core"
 version = "0.2.0"
-source = "git+https://github.com/eyshoit-commits/1bitshit_kernel-bkg?branch=main#ffa8a83c14d26baccaccd540f2121da1ee0627b1"
+source = "git+https://github.com/eyshoit-commits/1bitshit_kernel-bkg?branch=main#46974bd9e0f4712ad0e74a341a96b5a1526548be"
 dependencies = [
  "anyhow",
  "bitshit-shared",
@@ -595,7 +595,7 @@ dependencies = [
 [[package]]
 name = "bitshit-shared"
 version = "0.2.0"
-source = "git+https://github.com/eyshoit-commits/1bitshit_kernel-bkg?branch=main#ffa8a83c14d26baccaccd540f2121da1ee0627b1"
+source = "git+https://github.com/eyshoit-commits/1bitshit_kernel-bkg?branch=main#46974bd9e0f4712ad0e74a341a96b5a1526548be"
 dependencies = [
  "anyhow",
  "bincode",
@@ -835,9 +835,9 @@ dependencies = [
 
 [[package]]
 name = "cc"
-version = "1.2.66"
+version = "1.2.67"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f5d6cac793997bd970000024b2934968efe83b382de4fdcf4fcb46b6ee4ad996"
+checksum = "e17dd265a7d0f31ef544e1b20e03add05d3b45b491b633b10d67145d2acc1a38"
 dependencies = [
  "find-msvc-tools",
  "jobserver",
@@ -2472,7 +2472,7 @@ dependencies = [
  "js-sys",
  "log",
  "wasm-bindgen",
- "windows-core 0.62.2",
+ "windows-core 0.57.0",
 ]
 
 [[package]]
@@ -3737,7 +3737,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3c80231409c20246a13fddb31776fb942c38553c51e871f8cbd687a4cfb5843d"
 dependencies = [
  "phf_shared",
- "rand 0.8.6",
+ "rand 0.8.7",
 ]
 
 [[package]]
@@ -4029,9 +4029,9 @@ checksum = "dc33ff2d4973d518d823d61aa239014831e521c75da58e3df4840d3f47749d09"
 
 [[package]]
 name = "rand"
-version = "0.8.6"
+version = "0.8.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5ca0ecfa931c29007047d1bc58e623ab12e5590e8c7cc53200d5202b69266d8a"
+checksum = "22f6172bdec972074665ed81ed53b71da00bfc44b65a753cfde883ec4c702a1a"
 dependencies = [
  "libc",
  "rand_chacha 0.3.1",
@@ -4040,9 +4040,9 @@ dependencies = [
 
 [[package]]
 name = "rand"
-version = "0.9.4"
+version = "0.9.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "44c5af06bb1b7d3216d91932aed5265164bf384dc89cd6ba05cf59a35f5f76ea"
+checksum = "b9ef1d0d795eb7d84685bca4f72f3649f064e6641543d3a8c415898726a57b41"
 dependencies = [
  "rand_chacha 0.9.0",
  "rand_core 0.9.5",
@@ -5335,7 +5335,7 @@ dependencies = [
  "monostate",
  "onig",
  "paste",
- "rand 0.8.6",
+ "rand 0.8.7",
  "rayon",
  "rayon-cond 0.3.0",
  "regex",
@@ -5369,7 +5369,7 @@ dependencies = [
  "monostate",
  "onig",
  "paste",
- "rand 0.9.4",
+ "rand 0.9.5",
  "rayon",
  "rayon-cond 0.4.0",
  "regex",
@@ -6575,23 +6575,10 @@ version = "0.57.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d2ed2439a290666cd67ecce2b0ffaad89c2a56b976b736e6ece670297897832d"
 dependencies = [
- "windows-implement 0.57.0",
- "windows-interface 0.57.0",
- "windows-result 0.1.2",
+ "windows-implement",
+ "windows-interface",
+ "windows-result",
  "windows-targets 0.52.6",
-]
-
-[[package]]
-name = "windows-core"
-version = "0.62.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b8e83a14d34d0623b51dce9581199302a221863196a1dde71a7663a4c2be9deb"
-dependencies = [
- "windows-implement 0.60.2",
- "windows-interface 0.59.3",
- "windows-link",
- "windows-result 0.4.1",
- "windows-strings",
 ]
 
 [[package]]
@@ -6606,32 +6593,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "windows-implement"
-version = "0.60.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "053e2e040ab57b9dc951b72c264860db7eb3b0200ba345b4e4c3b14f67855ddf"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.118",
-]
-
-[[package]]
 name = "windows-interface"
 version = "0.57.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "29bee4b38ea3cde66011baa44dba677c432a78593e202392d1e9070cf2a7fca7"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.118",
-]
-
-[[package]]
-name = "windows-interface"
-version = "0.59.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3f316c4a2570ba26bbec722032c4099d8c8bc095efccdc15688708623367e358"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -6651,24 +6616,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5e383302e8ec8515204254685643de10811af0ed97ea37210dc26fb0032647f8"
 dependencies = [
  "windows-targets 0.52.6",
-]
-
-[[package]]
-name = "windows-result"
-version = "0.4.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7781fa89eaf60850ac3d2da7af8e5242a5ea78d1a11c49bf2910bb5a73853eb5"
-dependencies = [
- "windows-link",
-]
-
-[[package]]
-name = "windows-strings"
-version = "0.5.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7837d08f69c77cf6b07689544538e017c1bfcf57e34b4c0ff58e6c2cd3b37091"
-dependencies = [
- "windows-link",
 ]
 
 [[package]]
