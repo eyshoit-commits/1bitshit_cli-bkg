@@ -12,11 +12,11 @@ path = "src/main.rs"
 
 [dependencies]
 # ── Root Architecture (cli -> engine -> driver -> kernel) ──
-bitshit-engine-core = { git = "https://github.com/bkgoder/1bitshit_engine-bkg", package = "bitshit-engine-core", branch = "main" }
-bitshit-engine-api = { git = "https://github.com/bkgoder/1bitshit_engine-bkg", package = "bitshit-engine-api", branch = "main" }
-bitshit-shared = { git = "https://github.com/bkgoder/1bitshit_kernel-bkg", package = "bitshit-shared", branch = "main" }
+bitshit-engine-core = { git = "https://github.com/eyshoit-commits/1bitshit_engine-bkg", package = "bitshit-engine-core", branch = "main" }
+bitshit-engine-api = { git = "https://github.com/eyshoit-commits/1bitshit_engine-bkg", package = "bitshit-engine-api", branch = "main" }
+bitshit-shared = { git = "https://github.com/eyshoit-commits/1bitshit_kernel-bkg", package = "bitshit-shared", branch = "main" }
 # Kernel ABI types (EmbeddingDriver, OnnxEngine, ...) are re-exported by the driver layer.
-bitshit-driver-dispatcher = { git = "https://github.com/bkgoder/1bitshit_driver-bkg", package = "bitshit-driver-dispatcher", branch = "main" }
+bitshit-driver-dispatcher = { git = "https://github.com/eyshoit-commits/1bitshit_driver-bkg", package = "bitshit-driver-dispatcher", branch = "main" }
 
 
 # ── Powerhouse Ratatui Framework ──
